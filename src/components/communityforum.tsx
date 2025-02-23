@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, MessageSquare, History, Search, ThumbsUp, Clock, User } from 'lucide-react';
+import { Send, MessageSquare, History, Search, ThumbsUp, Clock, User, HelpCircle } from 'lucide-react';
 import io from 'socket.io-client';
 
 interface Message {
@@ -150,6 +150,12 @@ const CommunityForum = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+
+                {/* Help Text */}
+                <div className="flex items-center text-sm text-black px-4">
+                  <HelpCircle className="w-4 h-4 mr-2 text-black" />
+                  <span>Type <code className="bg-white/10 px-2 py-0.5 rounded text-black">/help</code> to see available commands</span>
                 </div>
 
                 {/* Message Input */}
