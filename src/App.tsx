@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import FeatureCard from './components/FeatureCard';
 import CommunityForum from './components/communityforum';
 import  DiseasesMap  from './components/diseasesmapping'
+import HealthSummary from './components/healthsummary'
 
 function HomePage() {
   return (
@@ -76,6 +77,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/community" element={<CommunityForum />} />
           <Route path="/diseases" element={<DiseasesMap />} />
+          <Route path="/healthsummary" element={<HealthSummary />} />
         </Routes>
       </div>
     </Router>
