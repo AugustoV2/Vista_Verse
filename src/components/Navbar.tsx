@@ -19,6 +19,7 @@ const Navbar = () => {
             <a href="/community" className="text-gray-700 hover:text-blue-600">Community Forum</a>
             <a href="/diseases" className="text-gray-700 hover:text-blue-600">AI Symptom Checker</a>
             <a href="/diseases" className="text-gray-700 hover:text-blue-600">Disease Awareness</a>
+            <a href="/eyesdetection" className="text-gray-700 hover:text-blue-600">Eye Disease Detection</a>
             
             {/* User Profile Section */}
             <div className="relative">
