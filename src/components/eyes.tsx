@@ -7,7 +7,8 @@ function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isDetecting, setIsDetecting] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(true);
-  const [animationFrameId, setAnimationFrameId] = useState<number | null>(null);
+  // Use ref instead of state for animation frame id to avoid re-renders.
+  const animationFrameIdRef = useRef<number | null>(null);
 
   const drawDetections = (detections: any[], ctx: CanvasRenderingContext2D) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -49,27 +50,27 @@ function App() {
       console.error('Error detecting eyes:', error);
     }
     
-    // Schedule the next frame
-    const reqId = requestAnimationFrame(sendFrameToBackend);
-    setAnimationFrameId(reqId);
+    // Schedule the next frame without causing a state update
+    animationFrameIdRef.current = requestAnimationFrame(sendFrameToBackend);
   }, [isDetecting]);
 
   useEffect(() => {
     if (isDetecting) {
       // Start sending frames continuously
-      const reqId = requestAnimationFrame(sendFrameToBackend);
-      setAnimationFrameId(reqId);
+      animationFrameIdRef.current = requestAnimationFrame(sendFrameToBackend);
     } else {
       // Stop detection: cancel the next animation frame if exists
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
+      if (animationFrameIdRef.current) {
+        cancelAnimationFrame(animationFrameIdRef.current);
       }
     }
     // Cleanup function to cancel any pending frame on unmount or when isDetecting changes
     return () => {
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (animationFrameIdRef.current) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
     };
-  }, [isDetecting, sendFrameToBackend, animationFrameId]);
+  }, [isDetecting, sendFrameToBackend]);
 
   const toggleDetection = () => {
     setIsDetecting((prev) => !prev);
@@ -86,7 +87,6 @@ function App() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4">Real-time Eye Detection</h1>
-         
         </div>
 
         <div className="relative w-full max-w-2xl mx-auto rounded-lg overflow-hidden">
